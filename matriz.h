@@ -1,11 +1,13 @@
 #ifndef MATRIZ_H
 #define MATRIZ_H
 
+#include "pilha.h"
+
 typedef struct Setor setor;
 typedef struct Matriz matriz;
 
 //funções para jogador
-void mover(setor*, matriz*);
+void mover(setor*, matriz*, pilha*);
 /*
 *Verifica se há posições disponíveis. Se sim,muda as coordenadas do setor para a  posição. Se não, retorna a anterior
 *Caso a anterior seja 0,0 e não existam mais posições possíveis ,para a execução

@@ -10,7 +10,7 @@ struct Camada{
 
 struct Pilha{
 	camada posicoes[TAM];
-	int topo = 0;
+	int topo;
 };
 
 pilha* iniciaPilha() {
@@ -43,7 +43,7 @@ void empilhar(camada* c, pilha* p){
 	if(pilhaCheia(p)){
 		return;
 	}
-	p->posicoes[p->topo] = c;
+	p->posicoes[p->topo] = *c;
 	p->topo++;
 }
 
