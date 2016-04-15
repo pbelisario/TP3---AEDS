@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "pilha.h"
+#include "matriz.h"
 #define TAM 10
 
 struct Camada{
@@ -15,6 +16,7 @@ struct Pilha{
 
 pilha* iniciaPilha() {
 	pilha* p = (pilha*) malloc (sizeof(pilha));
+  p->topo = 0;
 	return p;
 }
 
@@ -25,15 +27,15 @@ camada* iniciaCamada() {
 
 int pilhaVazia(pilha* p){
 	if(p->topo == 0){
-		printf("Pilha vazia!");
+		printf("Pilha vazia!\n");
 		return 1;
 	}
-	return ;
+	return 0;
 }
 
 int pilhaCheia(pilha* p){
 	if(p->topo == TAM){
-		printf("Pilha cheia!");
+		printf("Pilha cheia!\n");
 		return 1;
 	}
 	return 0;
@@ -48,7 +50,7 @@ void empilhar(camada* c, pilha* p){
 }
 
 void desempilhar(pilha* p){
-	if(pilhaVazia(p)){
+  if(pilhaVazia(p)){
 		return;
 	}
 	p->topo--;
@@ -57,4 +59,12 @@ void desempilhar(pilha* p){
 void preencheCamada(int x, int y, camada* c){
 	c->x = x;
 	c->y = y;
+}
+
+int getPosicaoxDaCamadaDaPilha(pilha *p){
+  return p->posicoes[p->topo].x;
+}
+
+int getPosicaoyDaCamadaDaPilha(pilha *p){
+  return p->posicoes[p->topo].y;
 }

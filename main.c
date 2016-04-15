@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-//teste
+
 #include "matriz.h"
 #include "pilha.h"
 
 int main(){
-	pilha* movimentos = iniciaPilha();
-	camada* teste = iniciaCamada();
-	matriz* tabuleiro = iniciaMatriz();
-	setor* jogador = iniciaSetor();
+	matriz *testem = iniciaMatriz();
+	printf("Matriz iniciada\n");
+	setor *testes = iniciaSetor();
+	printf("Setor iniciado\n");
+	preencheMatrizCom01(testem);
 }
