@@ -38,6 +38,7 @@ void preencheMatrizCom01(matriz *m){
 }
 
 void mover(setor* jogador, matriz* tabuleiro, pilha* movimentos){
+	//Objetivo: Realizar o movimento do jogador no jogo
   //primeiro marca-se a posicção atual como visitada
   tabuleiro->tabuleiro[jogador->x][jogador->y].visitado = 1;
 	//para mover para a direita é necessário verificar se o jogador nao está no canto direito
@@ -91,6 +92,32 @@ void mover(setor* jogador, matriz* tabuleiro, pilha* movimentos){
   //as linhas abaixo se referem à não haver uma posição viável para frente
   //nesse caso deve-se voltar uma posição, dado que a posição atual ja foi marcada como visitada
   //lembrando que a posição anterior está na pilha
+  //caso a posição atual seja (0, 0), ou seja, pilhaVazia=1, não faz sentido voltar
+  if(PilhaVazia){
+  	printf("Não existem mais posições disponíveis.\nFim de jogo.");
+  	return;
+  }
   jogador->x = getPosicaoxDaCamadaDaPilha(movimentos);
   jogador->y = getPosicaoyDaCamadaDaPilha(movimentos);
+  desempilhar(movimentos);
+}
+
+void imprimeMatriz(matriz* m){
+	//Objetivo: Verificar graficamente se a matriz foi preenchida corretamente
+	int i, j;
+	for(i=0; i< TAM; i++){
+		for(j=0; j< TAM; j++){
+			printf("%d  ", m->tabuleiro[i][j].caminho);
+		}
+		printf("\n");
+	}
+}
+
+int fimDeJogo(setor* jogador){
+	//Objetivo: Retorna 1 se o jogo tiver acabado e 0 senao
+	if(jogador->x == (TAM-1) && jogador->y==(TAM - 1)){
+		printf("O jogador alcançou o fim do jogo.");
+		return 1;
+	}
+	return 0;
 }
