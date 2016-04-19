@@ -6,12 +6,18 @@
 #include "pilha.h"
 
 int main(){
+	int k=0;
 	srand((unsigned) time(NULL)); //para alterar o preenchimento da matriz
-	matriz *testem = iniciaMatriz();
+	matriz *m = iniciaMatriz();
 	printf("Matriz iniciada\n");
-	setor *testes = iniciaSetor();
+	setor *jogador = iniciaSetor();
 	printf("Setor iniciado\n");
-	preencheMatrizCom01(testem);
-	imprimeMatriz(testem);
-	
+	pilha *p = iniciaPilha();
+	preencheMatrizCom01(m);
+	imprimeMatriz(m);
+	comecaJogo();
+	while(!fimDeJogo(jogador)){
+		printf("Posição do jogador : x = %d y = %d\n", getXJogador(jogador), getYJogador(jogador));
+		mover(jogador, m, p);
+	}
 }

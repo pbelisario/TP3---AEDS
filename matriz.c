@@ -22,6 +22,11 @@ setor* iniciaSetor() {
 	return set;
 }
 
+void comecaJogo(setor* jogador){
+	jogador->x = 0;
+	jogador->y = 0;
+}
+
 matriz* iniciaMatriz() {
   //Objetivo: inicia uma matriz vazia
 	matriz* m = (matriz*) malloc (sizeof(matriz));
@@ -41,51 +46,53 @@ void mover(setor* jogador, matriz* tabuleiro, pilha* movimentos){
 	//Objetivo: Realizar o movimento do jogador no jogo
   //primeiro marca-se a posicção atual como visitada
   tabuleiro->tabuleiro[jogador->x][jogador->y].visitado = 1;
-	//para mover para a direita é necessário verificar se o jogador nao está no canto direito
+	//para mover para baixo é necessário verificar se o jogador nao está no canto de baixo
 	if(jogador->x != (TAM - 1)){
-		//se existe caminho que não foi visitado à direita
+		//se existe caminho que não foi visitado a baixo
 		if(tabuleiro->tabuleiro[jogador->x + 1][jogador->y].caminho == 1 && tabuleiro->tabuleiro[jogador->x + 1][jogador->y].visitado == 0){
+			//salva a posição atual na pilha
 			camada* mov = iniciaCamada();
 			preencheCamada(jogador->x, jogador->y, mov);
 			empilhar(mov, movimentos);
 			jogador->x = jogador->x + 1;
-			printf("Moveu para a direita.");
+			printf("Moveu para baixo.\n");
       return; //vai para a proxima iteração
 		}
 	}
-	//para mover para baixo é necessário verificar se o jogador nao está no fundo do tabuleiro
+	//para mover para a direita é necessário verificar se o jogador nao está no canto esquerdo
 	if(jogador->y != (TAM -1)){
-		//se existe caminho que não foi visitado para baixo
+		//se existe caminho que não foi visitado para a direita
 		if(tabuleiro->tabuleiro[jogador->x][jogador->y + 1].caminho == 1 && tabuleiro->tabuleiro[jogador->x][jogador->y + 1].visitado == 0){
+			//salva a posição atual na pilha
 			camada* mov = iniciaCamada();
 			preencheCamada(jogador->x, jogador->y, mov);
 			empilhar(mov, movimentos);
 			jogador->y = jogador->y + 1;
-			printf("Moveu para baixo.");
+			printf("Moveu para a direita.\n");
       return; //vai para a proxima iteração
 		}
 	}
-	//para mover para a esquerda é necessário verificar se o jogador nao esta no canto esquerdo
+	//para mover para a cima é necessário verificar se o jogador nao esta no canto de cima
 	if(jogador->x != 0){
-		//se existe caminho que nao foi visitado para a esquerda
+		//se existe caminho que nao foi visitado para cima
 		if(tabuleiro->tabuleiro[jogador->x - 1][jogador->y].caminho == 1 && tabuleiro->tabuleiro[jogador->x - 1][jogador->y].visitado == 0){
 			camada* mov = iniciaCamada();
 			preencheCamada(jogador->x, jogador->y, mov);
 			empilhar(mov, movimentos);
 			jogador->x = jogador->x - 1;
-			printf("Moveu para a esquerda.");
+			printf("Moveu para cima.\n");
       return; //vai para a proxima iteração
 		}
 	}
-	//para mover para cima verifica-se se o jogador n esta na primeira linha
+	//para mover para a esquerda verifica-se se o jogador n esta na primeira coluna
 	if(jogador->y != 0){
-		//se existe caminho que nao foi visitado para cima
+		//se existe caminho que nao foi visitado para a esquerda
 		if(tabuleiro->tabuleiro[jogador->x][jogador->y - 1].caminho == 1 && tabuleiro->tabuleiro[jogador->x][jogador->y - 1].visitado == 0){
 			camada* mov = iniciaCamada();
 			preencheCamada(jogador->x, jogador->y, mov);
 			empilhar(mov, movimentos);
 			jogador->x = jogador->y - 1;
-			printf("Moveu para cima.");
+			printf("Moveu para a esquerda.\n");
       return; //vai para a proxima iteração
 		}
 	}
@@ -93,12 +100,14 @@ void mover(setor* jogador, matriz* tabuleiro, pilha* movimentos){
   //nesse caso deve-se voltar uma posição, dado que a posição atual ja foi marcada como visitada
   //lembrando que a posição anterior está na pilha
   //caso a posição atual seja (0, 0), ou seja, pilhaVazia=1, não faz sentido voltar
-  if(PilhaVazia){
+  if(pilhaVazia(movimentos)){
   	printf("Não existem mais posições disponíveis.\nFim de jogo.");
+    jogador->x = -1; //atribui esse valor para indicar termino do jogo
   	return;
   }
   jogador->x = getPosicaoxDaCamadaDaPilha(movimentos);
   jogador->y = getPosicaoyDaCamadaDaPilha(movimentos);
+  printf("Jogador voltou uma posição.\n");
   desempilhar(movimentos);
 }
 
@@ -119,5 +128,17 @@ int fimDeJogo(setor* jogador){
 		printf("O jogador alcançou o fim do jogo.");
 		return 1;
 	}
+  else{
+    if(jogador->x == -1)
+      return 1;   //-1 pois é uma posição inexistente que estou usando para mostrar que acabou
+  }
 	return 0;
+}
+
+int getXJogador(setor* jogador){
+	return jogador->x;
+}
+
+int getYJogador(setor* jogador){
+	return jogador->y;
 }
