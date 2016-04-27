@@ -35,10 +35,16 @@ matriz* iniciaMatriz() {
 
 void preencheMatrizCom01(matriz *m){
   //Objetivo : preenche a matriz com 0's e 1's, sendo que a posição inicial é sempre 1
-  int i, j;
+  int i, j, r;
   for(i=0; i< TAM; i++)
-    for(j=0; j< TAM; j++)
-      m->tabuleiro[i][j].caminho = rand()%2;
+    for(j=0; j< TAM; j++){
+      r = rand()%10;
+      //chance de ter caminho é maior
+      if(r<8)
+        m->tabuleiro[i][j].caminho = 1;
+      else
+        m->tabuleiro[i][j].caminho = 0;
+    }
   m->tabuleiro[0][0].caminho = 1; //posição inicial
 }
 
@@ -91,7 +97,7 @@ void mover(setor* jogador, matriz* tabuleiro, pilha* movimentos){
 			camada* mov = iniciaCamada();
 			preencheCamada(jogador->x, jogador->y, mov);
 			empilhar(mov, movimentos);
-			jogador->x = jogador->y - 1;
+			jogador->y = jogador->y - 1;
 			printf("Moveu para a esquerda.\n");
       return; //vai para a proxima iteração
 		}
@@ -101,7 +107,7 @@ void mover(setor* jogador, matriz* tabuleiro, pilha* movimentos){
   //lembrando que a posição anterior está na pilha
   //caso a posição atual seja (0, 0), ou seja, pilhaVazia=1, não faz sentido voltar
   if(pilhaVazia(movimentos)){
-  	printf("Não existem mais posições disponíveis.\nFim de jogo.");
+  	printf("Não existem mais posições disponíveis.\nFim de jogo.\n");
     jogador->x = -1; //atribui esse valor para indicar termino do jogo
   	return;
   }
@@ -116,7 +122,10 @@ void imprimeMatriz(matriz* m){
 	int i, j;
 	for(i=0; i< TAM; i++){
 		for(j=0; j< TAM; j++){
-			printf("%d  ", m->tabuleiro[i][j].caminho);
+      if(m->tabuleiro[i][j].visitado == 1)
+        printf("*  ");
+      else
+			   printf("%d  ", m->tabuleiro[i][j].caminho);
 		}
 		printf("\n");
 	}
@@ -125,16 +134,20 @@ void imprimeMatriz(matriz* m){
 int fimDeJogo(setor* jogador){
 	//Objetivo: Retorna 1 se o jogo tiver acabado e 0 senao
 	if(jogador->x == (TAM-1) && jogador->y==(TAM - 1)){
-		printf("O jogador alcançou o fim do jogo.");
+		printf("O jogador alcançou o fim do jogo.\n");
 		return 1;
 	}
   else{
-    if(jogador->x == -1)
+    if(jogador->x == -1){
+      printf("Não há caminhos possíveis para se vencer o jogo.\n");
       return 1;   //-1 pois é uma posição inexistente que estou usando para mostrar que acabou
+    }
   }
 	return 0;
 }
 
+
+//gets utilizados para acessar valores em outros arquivos
 int getXJogador(setor* jogador){
 	return jogador->x;
 }

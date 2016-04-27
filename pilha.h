@@ -9,7 +9,7 @@ pilha* iniciaPilha(void);
 camada* iniciaCamada(void);
 //cria uma camada (contem posicao)
 void empilhar (camada*,pilha*);
-//empilha uma posicao, verificando se esta cheia 
+//empilha uma posicao, verificando se esta cheia
 void desempilhar(pilha*);
 //desempilha um elemento da pilha, verificando se esta vazia
 int pilhaVazia(pilha*);
@@ -17,5 +17,5 @@ int pilhaVazia(pilha*);
 int pilhaCheia(pilha*);
 //verifica se a pilha está cheia
 void preencheCamada(int x, int y, camada*);
-
+//adiciona um valor x e um y para a camada da pilha
 #endif
